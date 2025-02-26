@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     else{
                         runOnUiThread {
+                            adapter.updateList(emptyList())
                             binding.progressBar.isVisible = false
                         }
                     }
