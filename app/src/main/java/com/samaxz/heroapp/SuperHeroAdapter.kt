@@ -5,13 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.samaxz.heroapp.dataresponse.SuperHeroItemResponse
 
-class SuperHeroAdapter(var superheroList: List<SuperHeroItemResponse> = emptyList()) :
+class SuperHeroAdapter(
+    var superheroList: List<SuperHeroItemResponse> = emptyList(),
+    private val onItemSelected: (String) -> Unit
+) :
     RecyclerView.Adapter<SuperHeroViewHolder>() {
 
-        fun updateList(superheroList: List<SuperHeroItemResponse>){
-            this.superheroList = superheroList
-            notifyDataSetChanged()
-        }
+    fun updateList(superheroList: List<SuperHeroItemResponse>) {
+        this.superheroList = superheroList
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SuperHeroViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -21,7 +24,7 @@ class SuperHeroAdapter(var superheroList: List<SuperHeroItemResponse> = emptyLis
     override fun getItemCount() = superheroList.size
 
     override fun onBindViewHolder(viewHolder: SuperHeroViewHolder, position: Int) {
-        viewHolder.bind(superheroList[position])
+        viewHolder.bind(superheroList[position], onItemSelected)
     }
 
 }

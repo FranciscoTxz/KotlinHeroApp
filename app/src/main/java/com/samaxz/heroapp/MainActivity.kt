@@ -1,18 +1,19 @@
 package com.samaxz.heroapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.samaxz.heroapp.DetailSuperHeroActivity.Companion.EXTRA_ID
 import com.samaxz.heroapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String?) = false
         })
-        adapter = SuperHeroAdapter()
+        adapter = SuperHeroAdapter { superHeroId -> navigateToDetail(superHeroId) }
         binding.rvSuperHero.setHasFixedSize(true)
         binding.rvSuperHero.layoutManager = LinearLayoutManager(this)
         binding.rvSuperHero.adapter = adapter
@@ -51,9 +52,16 @@ class MainActivity : AppCompatActivity() {
                 var response = myResponse.body()
                 if (response != null) {
                     Log.i("API_SS", "${response.toString()}")
-                    runOnUiThread {
-                        adapter.updateList(response.superHeroes)
-                        binding.progressBar.isVisible = false
+                    if (response.response != "error") {
+                        runOnUiThread {
+                            adapter.updateList(response.superHeroes)
+                            binding.progressBar.isVisible = false
+                        }
+                    }
+                    else{
+                        runOnUiThread {
+                            binding.progressBar.isVisible = false
+                        }
                     }
                 }
             } else {
@@ -68,6 +76,12 @@ class MainActivity : AppCompatActivity() {
             .baseUrl("https://www.superheroapi.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    private fun navigateToDetail(id: String) {
+        val intent = Intent(this, DetailSuperHeroActivity::class.java)
+        intent.putExtra(EXTRA_ID, id)
+        startActivity(intent)
     }
 }
 
