@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.samaxz.heroapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +18,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var retrofit: Retrofit
+    private lateinit var adapter: SuperHeroAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -30,19 +34,30 @@ class MainActivity : AppCompatActivity() {
                 searchByName(query.orEmpty())
                 return false
             }
+
             override fun onQueryTextChange(newText: String?) = false
         })
+        adapter = SuperHeroAdapter()
+        binding.rvSuperHero.setHasFixedSize(true)
+        binding.rvSuperHero.layoutManager = LinearLayoutManager(this)
+        binding.rvSuperHero.adapter = adapter
     }
 
     private fun searchByName(query: String) {
+        binding.progressBar.isVisible = true
         CoroutineScope(Dispatchers.IO).launch {
             val myResponse = retrofit.create(ApiService::class.java).getSuperHeroes(query)
-            if (myResponse.isSuccessful){
-                Log.i("API", "WORK")
-            }
-            else
-            {
-                Log.i("API", "NOT WORK")
+            if (myResponse.isSuccessful) {
+                var response = myResponse.body()
+                if (response != null) {
+                    Log.i("API_SS", "${response.toString()}")
+                    runOnUiThread {
+                        adapter.updateList(response.superHeroes)
+                        binding.progressBar.isVisible = false
+                    }
+                }
+            } else {
+                Log.i("API_SS", "NOT WORK")
             }
         }
     }
