@@ -1,5 +1,6 @@
 package com.samaxz.heroapp
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -32,6 +33,7 @@ class DetailSuperHeroActivity : AppCompatActivity() {
         binding = ActivityDetailSuperHeroBinding.inflate(layoutInflater)
         retrofit = getRetrofit()
         setContentView(binding.root)
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         val id: String = intent.getStringExtra(EXTRA_ID).orEmpty()
         getSuperHeroInformation(id)
     }
