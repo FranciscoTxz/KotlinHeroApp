@@ -1,9 +1,11 @@
 package com.samaxz.heroapp
 
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -53,17 +55,17 @@ class MainActivity : AppCompatActivity() {
             if (myResponse.isSuccessful) {
                 var response = myResponse.body()
                 if (response != null) {
-                    Log.i("API_SS", "${response.toString()}")
+                    Log.i("API_SS", response.toString())
                     if (response.response != "error") {
                         runOnUiThread {
                             adapter.updateList(response.superHeroes)
                             binding.progressBar.isVisible = false
                         }
-                    }
-                    else{
+                    } else {
                         runOnUiThread {
                             adapter.updateList(emptyList())
                             binding.progressBar.isVisible = false
+                            showDialog()
                         }
                     }
                 }
@@ -85,6 +87,27 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, DetailSuperHeroActivity::class.java)
         intent.putExtra(EXTRA_ID, id)
         startActivity(intent)
+    }
+
+    private var isDialogShown = false
+
+    private fun showDialog() {
+        if (isDialogShown) return
+        Log.d("DialogTest", "showDialog() llamado")
+        isDialogShown = true
+        var dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_warning)
+
+        val btnTryAgain: Button = dialog.findViewById(R.id.btnTryAgain)
+
+        btnTryAgain.setOnClickListener {
+            dialog.dismiss()
+            isDialogShown = false
+        }
+        dialog.setOnDismissListener {
+            isDialogShown = false
+        }
+        dialog.show()
     }
 }
 

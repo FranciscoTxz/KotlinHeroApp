@@ -11,6 +11,7 @@
 
 
     <color name="superhero_item_name">#840000</color>
+    <color name="error_search">#FFAA00</color>
     <color name="superhero_card">#000000</color>
     <color name="superhero_intelligence">#4BB300</color>
     <color name="superhero_strength">#FF0000</color>
@@ -18,5 +19,6 @@
     <color name="superhero_durability">#073DFF</color>
     <color name="superhero_power">#FFC107</color>
     <color name="superhero_combat">#DA04FF</color>
+    <color name="dialog">#1D1B25</color>
 
 </resources>
