@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/superhero_item_name</item>
         <item name="colorOnPrimary">@color/black</item>
+
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#CA0000</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
@@ -13,4 +14,5 @@
         <item name="android:statusBarColor">@color/superhero_item_name</item>
         <!-- Customize your theme here. -->
     </style>
+
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HeroApp</string>
+    <string name="app_name">SuperheroApp</string>
     <string name="intelligence">Intelligence</string>
     <string name="strength">Strength</string>
     <string name="speed">Speed</string>
