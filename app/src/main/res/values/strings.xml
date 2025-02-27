@@ -10,4 +10,7 @@
     <string name="next">Continue</string>
     <string name="try_again">Try again please.</string>
     <string name="no_results">No results</string>
+    <string name="welcome">Welcome Hero!!!</string>
+    <string name="info_welcome">Get all SuperHeroes and Villians data from all universes.</string>
+    <string name="info_welcome_working">Powered by SuperHeroAPI.</string>
 </resources>

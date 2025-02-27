@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        // call dialog
+        showDialog(R.layout.dialog_welcome, R.id.btnWelcome)
         retrofit = getRetrofit()
         initUI()
     }
@@ -65,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                         runOnUiThread {
                             adapter.updateList(emptyList())
                             binding.progressBar.isVisible = false
-                            showDialog()
+                            showDialog(R.layout.dialog_warning, R.id.btnTryAgain)
                         }
                     }
                 }
@@ -91,16 +93,16 @@ class MainActivity : AppCompatActivity() {
 
     private var isDialogShown = false
 
-    private fun showDialog() {
+    private fun showDialog(dialogx : Int, btnDialog : Int) {
         if (isDialogShown) return
         Log.d("DialogTest", "showDialog() llamado")
         isDialogShown = true
         var dialog = Dialog(this)
-        dialog.setContentView(R.layout.dialog_warning)
+        dialog.setContentView(dialogx)
 
-        val btnTryAgain: Button = dialog.findViewById(R.id.btnTryAgain)
+        val btn: Button = dialog.findViewById(btnDialog)
 
-        btnTryAgain.setOnClickListener {
+        btn.setOnClickListener {
             dialog.dismiss()
             isDialogShown = false
         }
